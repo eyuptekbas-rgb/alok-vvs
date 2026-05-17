@@ -34,9 +34,20 @@ const groupIcons: Record<ServiceGroupTitle, LucideIcon> = {
   Erhverv: BriefcaseBusiness,
 };
 
+const mobileServices = [
+  { name: "VVS Installation", href: "/services/vvs-installation" },
+  { name: "Badeværelse", href: "/services/badevaerelse" },
+  { name: "Fjernvarme", href: "/services/fjernvarme" },
+  { name: "Varmeanlæg", href: "/services/varmeservice" },
+  { name: "Akut service", href: "/services/akut-vvs" },
+  { name: "Kloak", href: "/services/kloak" },
+  { name: "Erhverv", href: "/services/erhvervsloesninger" },
+  { name: "Serviceaftaler", href: "/services/serviceaftaler" },
+];
+
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const [openGroup, setOpenGroup] = useState<ServiceGroupTitle | null>(null);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
 
   return (
     <>
@@ -183,6 +194,14 @@ export default function Header() {
               </nav>
 
               <div className="flex shrink-0 items-center gap-3 sm:gap-4 lg:gap-5">
+                <Link
+                  href="/tilbud"
+                  className="inline-flex items-center justify-center rounded-full bg-sky-600 px-3.5 py-2 text-xs font-bold text-white shadow-[0_10px_24px_rgba(14,165,233,0.22)] transition active:scale-95 sm:px-4 sm:text-sm lg:hidden"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Tilbud
+                </Link>
+
                 <a
                   href="tel:61484829"
                   className="hidden items-center gap-2 rounded-full border border-sky-100 bg-white/90 px-4 py-2.5 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-sky-200 hover:bg-sky-50 md:flex"
@@ -209,7 +228,7 @@ export default function Header() {
                   aria-expanded={isOpen}
                   onClick={() => {
                     setIsOpen((open) => !open);
-                    setOpenGroup(null);
+                    setIsServicesOpen(false);
                   }}
                 >
                   {isOpen ? <X size={22} /> : <Menu size={22} />}
@@ -218,125 +237,96 @@ export default function Header() {
             </div>
 
             {isOpen && (
-              <div className="relative mt-4 overflow-hidden rounded-[2rem] border border-sky-100 bg-white/96 p-3.5 shadow-[0_24px_60px_rgba(14,165,233,0.12)] ring-1 ring-sky-200/40 lg:hidden">
-                <span className="water-ripple pointer-events-none absolute -right-8 top-8 h-28 w-28 rounded-full border border-sky-200/70" />
-                <span className="water-ripple pointer-events-none absolute -right-2 top-14 h-14 w-14 rounded-full border border-sky-300/40 [animation-delay:900ms]" />
-                <nav className="relative flex flex-col gap-2" aria-label="Mobil navigation">
+              <div className="relative mt-4 overflow-hidden rounded-[2rem] border border-sky-100 bg-white/97 p-3 shadow-[0_24px_60px_rgba(14,165,233,0.14)] ring-1 ring-sky-200/40 lg:hidden">
+                <span className="water-ripple pointer-events-none absolute -right-10 top-8 h-32 w-32 rounded-full border border-sky-300/70" />
+                <span className="water-ripple pointer-events-none absolute -right-1 top-16 h-16 w-16 rounded-full border border-sky-400/40 [animation-delay:800ms]" />
+                <span className="water-glint pointer-events-none absolute left-0 top-0 h-px w-2/3 bg-gradient-to-r from-transparent via-sky-300/80 to-transparent" />
+
+                <nav className="relative grid gap-2.5" aria-label="Mobil navigation">
                   <Link
                     href="/"
-                    className="rounded-[1.35rem] border border-transparent px-4 py-3.5 text-base font-bold tracking-[-0.02em] text-slate-800 transition hover:border-sky-100 hover:bg-sky-50 hover:text-sky-800 active:scale-[0.99]"
+                    className="group flex items-center justify-between rounded-[1.35rem] border border-sky-100 bg-white px-4 py-4 text-lg font-extrabold tracking-[-0.03em] text-slate-950 shadow-[0_10px_24px_rgba(14,165,233,0.07)] transition hover:bg-sky-50 active:scale-[0.99]"
                     onClick={() => setIsOpen(false)}
                   >
-                    Forside
+                    <span>Forside</span>
+                    <ArrowRight
+                      size={16}
+                      className="text-sky-700 opacity-0 transition group-hover:translate-x-1 group-hover:opacity-100"
+                    />
                   </Link>
 
-                  <div className="px-4 pb-1 pt-3">
-                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-700">
-                      Vores services
-                    </p>
-                    <p className="mt-1 text-sm leading-5 text-slate-500">
-                      Vælg hovedområde og fold detaljer ud.
-                    </p>
-                  </div>
-
-                  <div className="grid gap-2.5 rounded-[1.85rem] border border-sky-100 bg-gradient-to-br from-sky-50/90 via-white to-blue-50/70 p-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
-                    {serviceGroups.map((group) => {
-                      const Icon = groupIcons[group.title];
-                      const isExpanded = openGroup === group.title;
-
-                      return (
-                        <div
-                          key={group.title}
-                          className={`overflow-hidden rounded-[1.5rem] bg-white shadow-[0_12px_28px_rgba(14,165,233,0.08)] ring-1 transition duration-300 ${
-                            isExpanded
-                              ? "ring-sky-200 shadow-[0_18px_38px_rgba(14,165,233,0.14)]"
-                              : "ring-sky-100 hover:shadow-[0_16px_34px_rgba(14,165,233,0.12)]"
+                  <div className="overflow-hidden rounded-[1.35rem] border border-sky-100 bg-white shadow-[0_12px_30px_rgba(14,165,233,0.09)]">
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-between gap-3 px-4 py-4 text-left transition hover:bg-sky-50/75 active:scale-[0.99]"
+                      aria-expanded={isServicesOpen}
+                      onClick={() => setIsServicesOpen((open) => !open)}
+                    >
+                      <span>
+                        <span className="block text-lg font-extrabold tracking-[-0.03em] text-slate-950">
+                          Services
+                        </span>
+                        <span className="mt-1 block text-sm font-semibold leading-5 text-slate-500">
+                          Installation, varme, service og erhverv.
+                        </span>
+                      </span>
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sky-50 text-sky-800 ring-1 ring-sky-100">
+                        <ChevronDown
+                          size={19}
+                          className={`transition-transform duration-300 ease-out ${
+                            isServicesOpen ? "rotate-180" : ""
                           }`}
-                        >
-                          <button
-                            type="button"
-                            className="flex w-full items-center justify-between gap-3 px-4 py-4 text-left transition hover:bg-sky-50/70 active:scale-[0.99]"
-                            aria-expanded={isExpanded}
-                            onClick={() =>
-                              setOpenGroup((current) =>
-                                current === group.title ? null : group.title,
-                              )
-                            }
-                          >
-                            <span className="flex items-center gap-3">
-                              <span
-                                className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-sky-700 ring-1 transition ${
-                                  isExpanded
-                                    ? "bg-sky-100 ring-sky-200"
-                                    : "bg-sky-50 ring-sky-100"
-                                }`}
-                              >
-                                <Icon size={20} />
-                              </span>
-                              <span>
-                                <span className="block text-lg font-bold tracking-[-0.03em] text-slate-950">
-                                  {group.title}
-                                </span>
-                                <span className="mt-0.5 block text-sm font-medium leading-5 text-slate-500">
-                                  {group.description}
-                                </span>
-                              </span>
-                            </span>
-                            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sky-50 text-sky-800 ring-1 ring-sky-100">
-                              <ChevronDown
-                                size={18}
-                                className={`transition-transform duration-300 ease-out ${
-                                  isExpanded ? "rotate-180" : ""
-                                }`}
-                              />
-                            </span>
-                          </button>
+                        />
+                      </span>
+                    </button>
 
-                          <div
-                            aria-hidden={!isExpanded}
-                            className={`grid overflow-hidden border-t border-sky-50 bg-gradient-to-b from-white to-sky-50/45 transition-all duration-300 ease-out ${
-                              isExpanded
-                                ? "max-h-64 gap-1.5 px-3 pb-3 pt-2 opacity-100"
-                                : "max-h-0 gap-0 px-3 py-0 opacity-0"
-                            }`}
-                          >
-                              {group.services.map((service) => (
-                                <Link
-                                  key={service.slug}
-                                  href={service.href}
-                                  className="group/service flex items-center justify-between rounded-2xl px-3 py-2.5 text-sm font-bold text-slate-600 transition hover:bg-white hover:text-sky-800 hover:shadow-sm active:scale-[0.99]"
-                                  onClick={() => setIsOpen(false)}
-                                  tabIndex={isExpanded ? undefined : -1}
-                                >
-                                  <span>{service.title}</span>
-                                  <ArrowRight
-                                    size={14}
-                                    className="opacity-0 transition group-hover/service:translate-x-1 group-hover/service:opacity-100"
-                                  />
-                                </Link>
-                              ))}
-                            </div>
-                        </div>
-                      );
-                    })}
+                    <div
+                      aria-hidden={!isServicesOpen}
+                      className={`grid overflow-hidden border-t border-sky-50 bg-gradient-to-b from-white via-sky-50/35 to-white transition-all duration-300 ease-out ${
+                        isServicesOpen
+                          ? "max-h-[30rem] gap-1.5 px-3 pb-3 pt-2 opacity-100"
+                          : "max-h-0 gap-0 px-3 py-0 opacity-0"
+                      }`}
+                    >
+                      {mobileServices.map((service) => (
+                        <Link
+                          key={service.href}
+                          href={service.href}
+                          className="group/service flex items-center justify-between rounded-2xl px-3 py-2.5 text-[15px] font-bold text-slate-700 transition hover:bg-white hover:text-sky-800 hover:shadow-sm active:scale-[0.99]"
+                          onClick={() => setIsOpen(false)}
+                          tabIndex={isServicesOpen ? undefined : -1}
+                        >
+                          <span>{service.name}</span>
+                          <ArrowRight
+                            size={14}
+                            className="text-sky-700 opacity-0 transition group-hover/service:translate-x-1 group-hover/service:opacity-100"
+                          />
+                        </Link>
+                      ))}
+                    </div>
                   </div>
 
                   {nav.slice(1).map((item) => (
                     <Link
                       key={item.name}
                       href={item.href}
-                      className="rounded-[1.35rem] border border-transparent px-4 py-3.5 text-base font-bold tracking-[-0.02em] text-slate-800 transition hover:border-sky-100 hover:bg-sky-50 hover:text-sky-800 active:scale-[0.99]"
+                      className="group flex items-center justify-between rounded-[1.35rem] border border-sky-100 bg-white px-4 py-4 text-lg font-extrabold tracking-[-0.03em] text-slate-950 shadow-[0_10px_24px_rgba(14,165,233,0.07)] transition hover:bg-sky-50 active:scale-[0.99]"
                       onClick={() => setIsOpen(false)}
                     >
-                      {item.name}
+                      <span>{item.name}</span>
+                      <ArrowRight
+                        size={16}
+                        className="text-sky-700 opacity-0 transition group-hover:translate-x-1 group-hover:opacity-100"
+                      />
                     </Link>
                   ))}
                 </nav>
 
-                <div className="mt-4 grid gap-3 border-t border-sky-50 pt-4">
+                <div className="relative mt-4 grid gap-2.5 overflow-hidden rounded-[1.5rem] border border-sky-100 bg-sky-50/70 p-2">
+                  <span className="water-glint pointer-events-none absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-transparent via-white/80 to-transparent" />
                   <a
                     href="tel:61484829"
-                    className="inline-flex items-center justify-center gap-2 rounded-2xl border border-sky-100 bg-white px-4 py-3 text-sm font-bold text-slate-800 transition hover:bg-sky-50 active:scale-[0.99]"
+                    className="relative inline-flex items-center justify-center gap-2 rounded-[1.1rem] border border-sky-100 bg-white px-4 py-2.5 text-sm font-bold text-slate-800 transition hover:bg-sky-50 active:scale-[0.99]"
                     onClick={() => setIsOpen(false)}
                   >
                     <Phone size={16} />
@@ -345,9 +335,10 @@ export default function Header() {
 
                   <Link
                     href="/tilbud"
-                    className={buttonClass("primary", "px-4 py-3")}
+                    className="relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-[1.1rem] bg-sky-600 px-4 py-2.5 text-sm font-bold text-white shadow-[0_12px_26px_rgba(14,165,233,0.22)] transition active:scale-[0.99]"
                     onClick={() => setIsOpen(false)}
                   >
+                    <span className="water-droplet pointer-events-none absolute right-5 top-2 h-1.5 w-1.5 rounded-full bg-white/55" />
                     Få tilbud
                     <ArrowRight size={16} />
                   </Link>
@@ -359,22 +350,23 @@ export default function Header() {
         </div>
       </header>
 
-      <div className="fixed inset-x-3 bottom-2 z-50 grid grid-cols-2 gap-1.5 overflow-hidden rounded-[1.35rem] border border-sky-100 bg-white/92 p-1.5 shadow-[0_14px_36px_rgba(14,165,233,0.16)] backdrop-blur-xl lg:hidden">
-        <span className="water-glint pointer-events-none absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-transparent via-sky-100/50 to-transparent" />
+      <div className="fixed inset-x-4 bottom-3 z-50 grid grid-cols-2 gap-1 overflow-hidden rounded-full border border-sky-100 bg-white/90 p-1 shadow-[0_12px_30px_rgba(14,165,233,0.16)] ring-1 ring-white/70 backdrop-blur-xl lg:hidden">
+        <span className="water-glint pointer-events-none absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-transparent via-sky-200/70 to-transparent" />
+        <span className="water-ripple pointer-events-none absolute right-5 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full border border-sky-300/60" />
         <a
           href="tel:61484829"
-          className="relative inline-flex items-center justify-center gap-2 rounded-[1rem] border border-sky-100 bg-white px-3 py-2.5 text-sm font-bold text-slate-800 transition active:scale-[0.98]"
+          className="relative inline-flex items-center justify-center gap-2 rounded-full px-3 py-2 text-[13px] font-extrabold text-slate-800 transition active:scale-[0.98]"
         >
-          <Phone size={16} className="text-sky-700" />
+          <Phone size={15} className="text-sky-700" />
           Ring nu
         </a>
         <Link
           href="/tilbud"
-          className="relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-[1rem] bg-sky-600 px-3 py-2.5 text-sm font-bold text-white shadow-[0_10px_24px_rgba(14,165,233,0.22)] transition active:scale-[0.98]"
+          className="relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-sky-600 px-3 py-2 text-[13px] font-extrabold text-white shadow-[0_8px_20px_rgba(14,165,233,0.24)] transition active:scale-[0.98]"
         >
-          <span className="water-droplet pointer-events-none absolute right-4 top-1.5 h-1.5 w-1.5 rounded-full bg-white/45" />
+          <span className="water-droplet pointer-events-none absolute right-4 top-1.5 h-1.5 w-1.5 rounded-full bg-white/60" />
           Få tilbud
-          <ArrowRight size={16} />
+          <ArrowRight size={15} />
         </Link>
       </div>
     </>
