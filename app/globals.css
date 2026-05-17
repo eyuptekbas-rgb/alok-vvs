@@ -25,3 +25,99 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+@keyframes water-ripple {
+  0% {
+    opacity: 0;
+    transform: scale(0.72);
+  }
+  45% {
+    opacity: 0.45;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+@keyframes water-glint {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(260%);
+  }
+}
+
+@keyframes water-droplet {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateY(2px) scale(1.18);
+  }
+}
+
+@keyframes water-flow {
+  0%,
+  100% {
+    opacity: 0.38;
+    transform: translateX(-3%) scaleX(0.96);
+  }
+  50% {
+    opacity: 0.62;
+    transform: translateX(6%) scaleX(1.04);
+  }
+}
+
+@keyframes water-hero-ripple {
+  0% {
+    opacity: 0;
+    transform: scale(0.76);
+  }
+  45% {
+    opacity: 0.42;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.42);
+  }
+}
+
+.water-ripple {
+  animation: water-ripple 4.8s ease-out infinite;
+}
+
+.water-glint {
+  animation: water-glint 5.8s ease-in-out infinite;
+}
+
+.water-droplet {
+  animation: water-droplet 2.8s ease-in-out infinite;
+}
+
+.water-flow {
+  animation: water-flow 9s ease-in-out infinite;
+}
+
+.water-flow-slow {
+  animation-duration: 12s;
+  animation-delay: 1.4s;
+}
+
+.water-hero-ripple {
+  animation: water-hero-ripple 5.6s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .water-ripple,
+  .water-glint,
+  .water-droplet,
+  .water-flow,
+  .water-hero-ripple {
+    animation: none;
+  }
+}
